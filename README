@@ -1,0 +1,3 @@
+# Token Authentication
+- In the installed apps, add rest_framework.authtoken
+- And run migrations

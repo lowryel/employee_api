@@ -1,5 +1,8 @@
 from cProfile import label
 from django.db import models
+from django.dispatch import receiver
+from django.db.models.signals import post_save
+from django.db.models import Count
 
 # Create your models here.
 class Department(models.Model):
@@ -18,4 +21,14 @@ class Employees(models.Model):
 
     def __str__(self):
         return self.first_name
+
         
+@receiver(post_save, sender=Employees)
+def post_save_db_limit(sender, **kwargs):
+    employee=Employees.objects.all().count()
+    if employee>10:
+        print(kwargs)
+        print('you have been denied access. We have exceeded our limit')
+
+
+
